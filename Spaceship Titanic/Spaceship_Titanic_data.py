@@ -10,6 +10,8 @@
 
 
 import pandas as pd
+import numpy as np
+import os
 
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
@@ -20,10 +22,24 @@ import warnings
 warnings.filterwarnings('ignore')
 
 
+# Set random seed from reproductability
+# -------------------------------------
+
+# In[2]:
+
+
+def set_seed(seed):
+    'Sets the seed of the entire notebook so results are the same every time we run. This is for REPRODUCIBILITY.'
+    np.random.seed(seed)
+    os.environ['PYTHONHASHSEED'] = str(seed)
+    
+set_seed(42)
+
+
 # Read datasets
 # -------------
 
-# In[2]:
+# In[3]:
 
 
 ROOT_PATH = './input_data/'
@@ -41,7 +57,7 @@ train_data
 # Analyze train data
 # ------------------
 
-# In[3]:
+# In[4]:
 
 
 def summary(df):
@@ -63,7 +79,7 @@ summary(train_data)
 
 # Create a `FunctionTransformer` to remove Name and Cabin (not significative because too many different values), and split the PassengerId in the group id and person id.
 
-# In[4]:
+# In[5]:
 
 
 def feature_engineering(data):
@@ -83,7 +99,7 @@ fe_eng.fit_transform(train_data)
 
 # Create an `Imputer` to fill the missing values with the most frequent value in text columns, and with the mean in numeric ones.
 
-# In[5]:
+# In[6]:
 
 
 imputer = ColumnTransformer(
@@ -106,7 +122,7 @@ imputer = ColumnTransformer(
 imputer.fit_transform(fe_eng.fit_transform(train_data))
 
 
-# In[6]:
+# In[7]:
 
 
 scale_encode = ColumnTransformer(
@@ -136,7 +152,7 @@ scale_encode.fit_transform(imputer.fit_transform(fe_eng.fit_transform(train_data
 
 # Combine all transformers in a pipeline.
 
-# In[10]:
+# In[8]:
 
 
 preproc = Pipeline(
@@ -152,7 +168,7 @@ preproc.fit_transform(train_data)
 
 # Create a separated transformer to drop the target column
 
-# In[8]:
+# In[9]:
 
 
 def drp_trg(data):
