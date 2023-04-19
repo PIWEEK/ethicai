@@ -168,7 +168,7 @@ preproc.fit_transform(train_data)
 
 # Create a separated transformer to drop the target column
 
-# In[9]:
+# In[10]:
 
 
 def drp_trg(data):
@@ -178,4 +178,6 @@ def drp_trg(data):
         return data
 
 drop_target = FunctionTransformer(drp_trg)
+
+drop_target.fit_transform(train_data)
 
