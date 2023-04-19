@@ -136,7 +136,7 @@ scale_encode.fit_transform(imputer.fit_transform(fe_eng.fit_transform(train_data
 
 # Combine all transformers in a pipeline.
 
-# In[7]:
+# In[10]:
 
 
 preproc = Pipeline(
